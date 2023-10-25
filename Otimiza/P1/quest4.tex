@@ -4,6 +4,13 @@
 \usepackage[portuguese]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
 
 \begin{document}
 
@@ -37,7 +44,7 @@ lineares é possível mover de vértice em vértice.
 Foram criados dois casos, um em caso de toneladas forem variáveis continuas resultando em A: 16.54545 ton; B: 9.45455 ton; Lucro: 7587.27273 R\$;
 E para variáveis discretas, neste caso inteiras, A: 17 ton; B: 9 ton; Lucro: 7360 R\$
 Segue o código fonte:
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, basicstyle=\small]
 
 from scipy.optimize import linprog
 
@@ -95,7 +102,7 @@ C3 = 2500 barris,
 C4 = 1000 barris, lucro total =  6935.5 \$ / dia
 
 Segue o código fonte:
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python, basicstyle=\small]
     import pulp
     # b)
     # problema
@@ -109,7 +116,8 @@ Segue o código fonte:
     B = pulp.LpVariable("B", 0, cat = pulp.LpInteger)
     C = pulp.LpVariable("C", 0, cat = pulp.LpInteger)
     # equacoes e inequacoes
-    lucro += 13 * C1 + 15.3 * C2 + 14.6 * C3 + 14.9 * C4 - (16.2 * A + 15.75 * B + 15.3 * C), "lucro total" # funcao objetivo
+    lucro += 13 * C1 + 15.3 * C2 + 14.6 * C3 + 14.9 * C4 - 
+            (16.2 * A + 15.75 * B + 15.3 * C), "lucro total" # funcao objetivo
     # restricoes
     lucro += ( C1 - 15 * 1e-2 * A <= 0 , "Blend C1 em A")
     lucro += ( - C2  + 40 * 1e-2 * A <= 0 , "Blend C2 em A")
