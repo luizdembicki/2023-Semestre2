@@ -19,3 +19,74 @@
 \date{\today}
 \maketitle
 
+\paragraph{Questão 1}
+
+Trata-se de um problema de minimização de custos com a equação de custo dependente da
+área, assim utilizando as equações:
+\[ Q = U \cdot A \cdot \Delta T_{lm} \]
+\[ T_{lm} = \frac{(T_1 - t_2) - (T_2 - t_1)}{ln  \frac{T_1 - t_2}{T_2 - t_1}}  \]
+\[ Q = m \cdot C_p \cdot \Delta T \]
+
+As área foi obtida da seguinte forma, supondo que não há perda de
+energia:
+\[ Q =  U \cdot A \cdot \Delta T_{lm} = m \cdot C_p \cdot \Delta T \]
+\[ \to A = \frac{ m \cdot C_p \cdot \Delta T}{U \cdot \Delta T_{lm}} \]
+Assim para o caso em série:
+\[ Q1 \to Q = 16670 \cdot (252 - 320) = - 14450 (t_2 - 140) \therefore t_2 = 218,45 ^oF \]
+\[ \therefore A_2 = \frac{ 1133560 }{ 106 \cdot 106,7} = 100,22 \ ft^2 \]
+\[ A_3 = \frac{ 20000 \cdot (353 - 280)}{ 106 \cdot 45,8 } = 300,73 \ ft^2 \]
+Utilizando os valores encontrados na função objetivo temos então um custo fixo para
+o esquema em série:
+\[ C_{cap} = 100,22^{0,36} + 300,73^{0,21} = 8,57 \ \$ \slash A \]
+
+Para o esquema em paralelo foi variado a composição por meio da substituição da fração
+no lugar de \(m\). Por meio do solver do Excel variou-se x de modo a mínimizar \(C_{cap}\),
+com \(x\) inicial de 0,5 já que este oferecia resultados congruentes para \(\Delta T_{lm}\).
+Solver convergiu em \(x \approx 0,5\) com um \(C_{cap} = 7,98 \ \$ \slash A \), ou seja
+é mais avantajoso o processo em paralelo.
+Equações para paralelo:
+\begin{center}
+    min \( C_{cap} = A_2 ^{0,36} + A_3 ^{0,21} \), sujeito à:
+    \[ A = \frac{ x \cdot m \cdot C_p \cdot \Delta T}{U \cdot \Delta T_{lm}} \ \vert \ x \in \mathbb{R} ; 0,0001 \leqslant x \leqslant 1\]
+    \[ T_{lm} = \frac{(T_1 - t_2) - (T_2 - t_1)}{ln  \frac{T_1 - t_2}{T_2 - t_1}} \]
+    \[ t_2 = \frac{Q}{ x \cdot m \cdot C_p} + 140\]
+\end{center}
+
+\paragraph{Questão 2}
+a) Utilizando as relações:
+\[ Q - W_0 C_p (t_{i-1}-t_i) = 0\]
+\[ Q - \lambda W_i = 0 \]
+\[\to Q - W_0 C_p (t_{i-1}-t_i) = Q - \lambda W_i \therefore W_i = \frac{W_0 C_p (t_{i-1}-t_i)}{\lambda}\]
+Desta forma:
+\[ W_1 = 3465,3 \ lb \ ; \ W_2 = 3663,3 \ lb \ ; \ W_3 = 4752,5 \ lb \]
+\[ A = \frac{ Q }{U \cdot \Delta T_{lm}} \]
+\[ \to A_1 = 58,4 \ ft^2 \ ; \ A_2 = 54,2 \ ft^2 \ ; \ A_3 = \ 85,3 ft^2 \ \]
+
+b) Com Excel foram adicionados as relações acima em celulas e otimizadas com solver, primeiramente um a um
+cada trocador foi dimensionado variando a temperatura, no entanto desta forma o resultado será sempre a temperatura
+mais próxima da inicial possível, portanto não é uma forma viável de resolução. No entanto para otimização de ambos
+ao mesmo tempo, foi utilizada a função objetivo o custo total, minimizando-o, solver convergiu para \( t_1 = 49.9 ^o F\)
+e \( t_2 = 49.8 ^o F\) que estão no limiar do dominio fornecido, demonstrando que o sistema converge para maximizar a capacidade
+do ultimo trocador em detrimento do resto. A região viavel é composta da temperatua menor que a anterior mas maior que a posterior,
+e maior também que a temperatura do refrigerante.
+
+c) Custo é mais sensivel para com \( U \) já que este influencia diretamente na área que é variável na função custo,
+com o aumento de \(U\) reduz-se o custo e vice-versa.
+
+\paragraph{Questão 3}
+
+Modelagem:
+min \( - Lucro = - 0,4 \cdot (AB_{e1} + AB_{e2}) + 0,01 \cdot (W_{1} + W_2) \) sujeito à:
+\[ \frac{AB_{ei}}{W_{i} + AB_{ie}} = y = 4 \cdot x_i \]
+\[ AB_{ei} = ABA_i - ABA_{i-1} \]
+\[ ABA_0 = 102,125 \cdot 0,026 = 2,65525 \]
+\[ \sum ( AB_{ei} + ABA_i ) = 2,65525 \]
+\[ x_i \leqslant x_{i - 1} \]
+\[ {x_i, y_i} \in [0,1]  \]
+Onde i é o onde se encontra no processo (0: antes da extração, 1: extração 1
+2: extração 2) Como não foi fornecido \(x\) utilizou-se \(ABA_1\) e \(ABA_2\) como variaveis junto com
+\(W_1\) e \(W_2\). Com solver foi encontrado:
+\[ W_1 = 22,88 \ kg \ ; W_2 = 2 \ kg \]
+E lucro de 0,81 \$, com chute inicial de 10 e 1 kg de \(W_1\) e \(W_2\) respectivamente.
+
+\end{document}
